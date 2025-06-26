@@ -123,6 +123,7 @@ export function AppPromo() {
                                 <Button size="sm" variant="outline" className="h-7 rounded-full text-xs bg-white">Weddings</Button>
                                 <Button size="sm" variant="outline" className="h-7 rounded-full text-xs bg-white">Cupcakes</Button>
                                 <Button size="sm" variant="outline" className="h-7 rounded-full text-xs bg-white">Anniversary</Button>
+                                <Button size="sm" variant="outline" className="h-7 rounded-full text-xs bg-white">Bento Cakes</Button>
                             </div>
                         </div>
 
@@ -167,6 +168,30 @@ export function AppPromo() {
                                             </div>
                                         </div>
                                         <Badge variant="outline" className="text-xs border-green-300 bg-green-50 text-green-800">Delivered</Badge>
+                                    </CardContent>
+                                </Card>
+                                <Card className="bg-white border-rose-100 shadow-sm">
+                                    <CardContent className="p-2 flex justify-between items-center">
+                                        <div className="flex items-center gap-2">
+                                            <CakeSlice className="h-4 w-4 text-primary"/>
+                                            <div>
+                                                <p className="font-semibold">Caramel Crunch</p>
+                                                <p className="text-muted-foreground text-xs">Order #1020</p>
+                                            </div>
+                                        </div>
+                                        <Badge variant="outline" className="text-xs border-orange-300 bg-orange-50 text-orange-800">Awaiting Delivery</Badge>
+                                    </CardContent>
+                                </Card>
+                                <Card className="bg-white border-rose-100 shadow-sm">
+                                    <CardContent className="p-2 flex justify-between items-center">
+                                        <div className="flex items-center gap-2">
+                                            <CakeSlice className="h-4 w-4 text-primary"/>
+                                            <div>
+                                                <p className="font-semibold">Choco Decadence</p>
+                                                <p className="text-muted-foreground text-xs">Order #1019</p>
+                                            </div>
+                                        </div>
+                                        <Badge variant="destructive" className="text-xs">Cancelled</Badge>
                                     </CardContent>
                                 </Card>
                             </div>
