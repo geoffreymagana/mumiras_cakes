@@ -114,11 +114,11 @@ export function ContactUs() {
                   </div>
                    <div className="flex items-center gap-4">
                     <Phone className="h-6 w-6 text-primary flex-shrink-0" />
-                    <span>+254 712 345 678</span>
+                    <span>0703 187 905, 0702 384 111</span>
                   </div>
                    <div className="flex items-center gap-4">
                     <Mail className="h-6 w-6 text-primary flex-shrink-0" />
-                    <span>hello@mumirascakes.com</span>
+                    <span>mumirascakes@gmail.com</span>
                   </div>
                 </div>
             </div>
