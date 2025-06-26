@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { format } from "date-fns"
-import { Calendar as CalendarIcon, ChefHat, Ruler, Sparkles } from "lucide-react"
+import { Calendar as CalendarIcon, ChefHat, Ruler, Sparkles, Store, Truck } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -19,6 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -28,6 +29,9 @@ import { Card, CardContent } from "../ui/card"
 
 
 const formSchema = z.object({
+  deliveryOption: z.enum(["pickup", "delivery"], {
+    required_error: "You need to select a delivery option.",
+  }),
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   phone: z.string().min(10, { message: "Please enter a valid phone number." }),
@@ -74,7 +78,54 @@ export function CustomOrderForm() {
           <CardContent className="p-8 md:p-12">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <FormField
+                  control={form.control}
+                  name="deliveryOption"
+                  render={({ field }) => (
+                    <FormItem className="space-y-4">
+                      <FormLabel className="text-base font-semibold">Delivery Option</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                        >
+                          <FormItem>
+                            <Label
+                              htmlFor="pickup"
+                              className={cn(
+                                "flex flex-col items-center justify-center rounded-lg border-2 p-4 cursor-pointer hover:bg-accent/50 transition-colors",
+                                field.value === "pickup" ? "border-primary bg-primary/10" : "border-muted"
+                              )}
+                            >
+                              <RadioGroupItem value="pickup" id="pickup" className="sr-only" />
+                              <Store className="mb-3 h-8 w-8 text-primary" />
+                              <span className="font-bold">Pickup</span>
+                              <span className="text-sm font-normal text-muted-foreground">Collect from our bakery</span>
+                            </Label>
+                          </FormItem>
+                          <FormItem>
+                            <Label
+                              htmlFor="delivery"
+                              className={cn(
+                                "flex flex-col items-center justify-center rounded-lg border-2 p-4 cursor-pointer hover:bg-accent/50 transition-colors",
+                                field.value === "delivery" ? "border-primary bg-primary/10" : "border-muted"
+                              )}
+                            >
+                              <RadioGroupItem value="delivery" id="delivery" className="sr-only" />
+                              <Truck className="mb-3 h-8 w-8 text-primary" />
+                              <span className="font-bold">Delivery</span>
+                              <span className="text-sm font-normal text-muted-foreground">We'll bring it to you</span>
+                            </Label>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-border">
                   <FormField
                     control={form.control}
                     name="name"
@@ -279,9 +330,11 @@ export function CustomOrderForm() {
                         />
                 </div>
 
-
-                <div className="flex justify-end pt-8">
-                    <Button type="submit" size="lg">Submit Order Request</Button>
+                <div className="flex flex-col items-center gap-4 pt-8 border-t border-border mt-8 sm:flex-row sm:justify-between">
+                    <p className="text-sm text-muted-foreground text-center sm:text-left">
+                      We'll get back to you within 24 hours with a quote and timeline!
+                    </p>
+                    <Button type="submit" size="lg" className="w-full sm:w-auto">Submit Order Request</Button>
                 </div>
               </form>
             </Form>
