@@ -29,8 +29,12 @@ export default function BlogPage() {
                     </TableHeader>
                     <TableBody>
                         <TableRow>
-                            <TableCell colSpan={5} className="h-24 text-center">
-                                No blog posts found.
+                            <TableCell colSpan={5} className="h-48 text-center">
+                                <div className="flex flex-col items-center justify-center text-muted-foreground">
+                                    <div className="text-5xl mb-4" role="img" aria-label="Newspaper">📰</div>
+                                    <p className="font-semibold">No blog posts yet</p>
+                                    <p className="text-sm">Click the "New Post" button to start writing.</p>
+                                </div>
                             </TableCell>
                         </TableRow>
                     </TableBody>

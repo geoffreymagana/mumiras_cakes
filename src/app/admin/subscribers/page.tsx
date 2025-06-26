@@ -19,8 +19,12 @@ export default function SubscribersPage() {
                     </TableHeader>
                     <TableBody>
                         <TableRow>
-                            <TableCell colSpan={3} className="h-24 text-center">
-                                No subscribers found.
+                            <TableCell colSpan={3} className="h-48 text-center">
+                                <div className="flex flex-col items-center justify-center text-muted-foreground">
+                                    <div className="text-5xl mb-4" role="img" aria-label="Letter">💌</div>
+                                    <p className="font-semibold">No subscribers yet</p>
+                                    <p className="text-sm">Newsletter and app sign-ups will be listed here.</p>
+                                </div>
                             </TableCell>
                         </TableRow>
                     </TableBody>

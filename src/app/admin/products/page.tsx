@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { PlusCircle } from "lucide-react";
@@ -17,8 +17,12 @@ function ProductsTable({ emptyStateMessage }: { emptyStateMessage: string }) {
             </TableHeader>
             <TableBody>
                 <TableRow>
-                    <TableCell colSpan={4} className="h-24 text-center">
-                        {emptyStateMessage}
+                    <TableCell colSpan={4} className="h-48 text-center">
+                       <div className="flex flex-col items-center justify-center text-muted-foreground">
+                            <div className="text-5xl mb-4" role="img" aria-label="Cake slice">🍰</div>
+                            <p className="font-semibold">{emptyStateMessage}</p>
+                            <p className="text-sm">Click 'Add Product' to get started.</p>
+                        </div>
                     </TableCell>
                 </TableRow>
             </TableBody>

@@ -22,8 +22,12 @@ export default function OrdersPage() {
                     </TableHeader>
                     <TableBody>
                         <TableRow>
-                            <TableCell colSpan={5} className="h-24 text-center">
-                                No orders found.
+                            <TableCell colSpan={5} className="h-48 text-center">
+                                <div className="flex flex-col items-center justify-center text-muted-foreground">
+                                    <div className="text-5xl mb-4" role="img" aria-label="Receipt">🧾</div>
+                                    <p className="font-semibold">No orders found</p>
+                                    <p className="text-sm">New orders from your website will appear here.</p>
+                                </div>
                             </TableCell>
                         </TableRow>
                     </TableBody>
