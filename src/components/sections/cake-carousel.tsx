@@ -61,7 +61,7 @@ export function CakeCarousel() {
         >
           <CarouselContent className="-ml-4">
             {signatureCakes.map((cake, index) => (
-              <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3 group">
+              <CarouselItem key={index} className="pl-4 pb-8 md:basis-1/2 lg:basis-1/3 group">
                 <CakeCard {...cake} />
               </CarouselItem>
             ))}
