@@ -73,6 +73,9 @@ export default {
         'bakery-peach': '#FFCCCB',
         'bakery-mint': '#F0FFF0',
         'bakery-lavender': '#E6E6FA',
+        'mint-frosting': '#D7F3E3',
+        'cherry-red': '#FF3B30',
+        'minty-teal': '#34C759',
       },
       backgroundImage: {
         'bakery-gradient': 'linear-gradient(to right, #FFC0CB, #FFE4B5, #FFB6C1)',
