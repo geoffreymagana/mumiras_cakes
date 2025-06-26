@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { DonutChart, Pie, Cell } from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
 import { ShoppingCart, Package, Truck, CheckCircle } from "lucide-react";
 
 const chartData: any[] = [
@@ -78,7 +78,7 @@ export default function DashboardPage() {
               config={chartConfig}
               className="mx-auto aspect-square h-[250px]"
             >
-              <DonutChart>
+              <PieChart>
                 <ChartTooltip
                   cursor={false}
                   content={<ChartTooltipContent hideLabel />}
@@ -98,7 +98,7 @@ export default function DashboardPage() {
                     />
                   ))}
                 </Pie>
-              </DonutChart>
+              </PieChart>
             </ChartContainer>
             )}
           </CardContent>
