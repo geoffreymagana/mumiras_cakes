@@ -2,7 +2,13 @@ import Link from 'next/link';
 import { Logo } from './logo';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Twitter, Instagram, Facebook } from 'lucide-react';
+import { Instagram, Facebook } from 'lucide-react';
+
+const TiktokIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-2.43.03-4.83-.95-6.43-2.88-1.59-1.94-2.2-4.42-1.8-6.83.39-2.35 1.85-4.59 3.99-5.74.57-.3 1.16-.52 1.78-.69.01-1.67-.02-3.34.01-5.02.01-.19.01-.38.03-.57.21-.04.42-.04.63-.04 1.39.01 2.79.01 4.18.01zm-1.5 5.92c-.39-.01-.78-.01-1.17-.01-.03 1.83.01 3.65-.01 5.48-.02.44-.06.88-.13 1.32-.16 1.03-.6 2.01-1.25 2.87-1.11 1.48-2.73 2.28-4.49 2.16-1.54-.1-2.9-.85-3.82-2.11-.82-1.12-1.12-2.42-1.01-3.75.11-1.34.7-2.61 1.73-3.62 1.14-1.12 2.6-1.68 4.16-1.61.44.02.88.07 1.31.15.02-1.78-.01-3.57.01-5.35z"/>
+    </svg>
+  );
 
 export function Footer() {
   const navLinks = [
@@ -16,9 +22,9 @@ export function Footer() {
   ];
 
   const socialLinks = [
-    { name: 'Twitter', icon: Twitter, href: '#' },
-    { name: 'Instagram', icon: Instagram, href: '#' },
-    { name: 'Facebook', icon: Facebook, href: '#' },
+    { name: 'Facebook', icon: Facebook, href: 'https://www.facebook.com/61557173366960' },
+    { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/mumiras_cakes?igsh=a21iczF2bjZxdGtn' },
+    { name: 'Tiktok', icon: TiktokIcon, href: 'https://www.tiktok.com/@mumiras_cakes?_t=ZM-8xXFE29G84U&_r=1' },
   ];
 
   return (
@@ -35,7 +41,7 @@ export function Footer() {
             </p>
             <div className="flex space-x-6">
               {socialLinks.map((item) => (
-                <a key={item.name} href={item.href} className="text-muted-foreground hover:text-primary">
+                <a key={item.name} href={item.href} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
                   <span className="sr-only">{item.name}</span>
                   <item.icon className="h-6 w-6" aria-hidden="true" />
                 </a>
