@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 
 export function Hero() {
   return (
-    <section id="home" className="relative w-full h-[80vh] min-h-[500px] lg:h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-rose-50 to-[#FFF9F2]">
+    <section id="home" className="relative w-full h-[80vh] min-h-[500px] lg:h-screen flex items-center justify-center overflow-hidden bg-background">
       <div className="absolute inset-0 z-0">
         {/* Animated sprinkles */}
         <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-primary rounded-full animate-[float_8s_ease-in-out_infinite_1s]"></div>
