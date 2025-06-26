@@ -50,7 +50,7 @@ export default function AdminLayout({
         <SidebarHeader>
           <Logo />
         </SidebarHeader>
-        <SidebarContent>
+        <SidebarContent className="p-2">
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton href="/admin" asChild>
