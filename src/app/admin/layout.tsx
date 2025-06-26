@@ -19,7 +19,7 @@ import {
   ShoppingCart,
   Users,
   Bell,
-  Home,
+  Globe,
   UserCircle,
   Landmark,
 } from "lucide-react";
@@ -123,8 +123,8 @@ export default function AdminLayout({
            <SidebarMenu>
              <SidebarMenuItem>
               <SidebarMenuButton href="/" asChild>
-                <Link href="/">
-                  <Home />
+                <Link href="/" target="_blank" rel="noopener noreferrer">
+                  <Globe />
                   View Website
                 </Link>
               </SidebarMenuButton>
