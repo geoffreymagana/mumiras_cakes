@@ -1,4 +1,3 @@
-
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -117,7 +116,7 @@ export function AppPromo() {
                         </div>
                     </div>
 
-                    <div className="flex-grow overflow-y-auto p-3 space-y-4 text-xs">
+                    <div className="flex-grow overflow-y-auto scrollbar-hide p-3 space-y-4 text-xs">
                         <div>
                             <h4 className="font-bold text-gray-700 mb-2">Categories</h4>
                             <ScrollArea className="w-full whitespace-nowrap rounded-md">
@@ -184,7 +183,7 @@ export function AppPromo() {
                                                 <p className="text-muted-foreground text-xs">Order #1020</p>
                                             </div>
                                         </div>
-                                        <Badge variant="outline" className="text-xs border-orange-300 bg-orange-50 text-orange-800">Awaiting Delivery</Badge>
+                                        <Badge variant="outline" className="text-xs border-orange-300 bg-orange-50 text-orange-800">Shipped</Badge>
                                     </CardContent>
                                 </Card>
                                 <Card className="bg-white border-rose-100 shadow-sm">
