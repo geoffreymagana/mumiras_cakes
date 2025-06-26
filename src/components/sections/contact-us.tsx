@@ -10,7 +10,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { MapPin, Phone, Mail } from "lucide-react"
-import Image from 'next/image'
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -124,14 +123,15 @@ export function ContactUs() {
                 </div>
             </div>
              <div className="relative h-80 w-full rounded-2xl overflow-hidden shadow-lg">
-                <Image
-                  src="https://placehold.co/800x600.png"
-                  alt="Map showing bakery location"
-                  fill
-                  data-ai-hint="city map"
-                  className="object-cover"
-                />
-                 <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d997.0377200232039!2d36.66482277467666!3d-1.2422395164607822!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMcKwMTQnMzEuOCJTIDM2wrAzOSc1NC4zIkU!5e0!3m2!1sen!2ske!4v1750962960271!5m2!1sen!2ske" 
+                    className="w-full h-full"
+                    style={{border:0}} 
+                    allowFullScreen={true} 
+                    loading="lazy" 
+                    referrerPolicy="no-referrer-when-downgrade">
+                </iframe>
+                <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
                     <Button asChild variant="secondary">
                         <a href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer">
                             Open in Google Maps
