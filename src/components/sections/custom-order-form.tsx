@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { format } from "date-fns"
-import { Calendar as CalendarIcon, ChefHat, Ruler, Sparkles, Store, Truck } from "lucide-react"
+import { Calendar as CalendarIcon, ChefHat, MapPin, Ruler, Sparkles, Store, Truck } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -32,6 +32,7 @@ const formSchema = z.object({
   deliveryOption: z.enum(["pickup", "delivery"], {
     required_error: "You need to select a delivery option.",
   }),
+  deliveryAddress: z.string().optional(),
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   phone: z.string().min(10, { message: "Please enter a valid phone number." }),
@@ -41,7 +42,18 @@ const formSchema = z.object({
   flavor: z.string({ required_error: "Please select a flavor." }),
   customMessage: z.string().max(100, { message: "Message cannot be longer than 100 characters." }).optional(),
   details: z.string().optional(),
-})
+}).refine(
+  (data) => {
+    if (data.deliveryOption === "delivery") {
+      return data.deliveryAddress && data.deliveryAddress.length > 5
+    }
+    return true
+  },
+  {
+    message: "A valid delivery address of at least 5 characters is required.",
+    path: ["deliveryAddress"],
+  }
+)
 
 export function CustomOrderForm() {
   const { toast } = useToast()
@@ -53,8 +65,11 @@ export function CustomOrderForm() {
       phone: "",
       customMessage: "",
       details: "",
+      deliveryAddress: "",
     },
   })
+
+  const deliveryOption = form.watch("deliveryOption");
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
@@ -124,6 +139,31 @@ export function CustomOrderForm() {
                     </FormItem>
                   )}
                 />
+
+                {deliveryOption === 'delivery' && (
+                  <div className="relative pt-4 transition-all duration-300 ease-in-out">
+                     <FormField
+                        control={form.control}
+                        name="deliveryAddress"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Delivery Address</FormLabel>
+                            <FormControl>
+                              <div className="relative">
+                                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                                <Input placeholder="Enter your full delivery address" {...field} className="pl-10" />
+                              </div>
+                            </FormControl>
+                            <FormDescription>
+                                Please provide a detailed address for delivery.
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                  </div>
+                )}
+
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-border">
                   <FormField
