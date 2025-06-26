@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { ShoppingBag, Palette, Bell, Gift, Rocket, Sparkles } from 'lucide-react';
+import { ShoppingBag, Palette, Bell, Gift, Rocket, Sparkles, Home, Cake, UserCircle } from 'lucide-react';
 
 export function AppPromo() {
   const features = [
@@ -71,15 +71,9 @@ export function AppPromo() {
             </Card>
           </div>
           <div className="relative flex items-center justify-center lg:pl-12 h-[600px] lg:h-auto mt-12 lg:mt-0">
-             <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-full max-w-md h-full max-h-md aspect-square bg-transparent border-2 border-primary/10 rounded-full animate-pulse [animation-duration:4s]"></div>
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-full max-w-lg h-full max-h-lg aspect-square bg-transparent border-2 border-primary/10 rounded-full animate-pulse [animation-duration:4s] [animation-delay:300ms]"></div>
-              </div>
-               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-full max-w-xl h-full max-h-xl aspect-square bg-transparent border-2 border-primary/10 rounded-full animate-pulse [animation-duration:4s] [animation-delay:600ms]"></div>
-              </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/10 to-transparent rounded-full animate-pulse [animation-duration:4s]"></div>
+            <div className="absolute inset-x-8 inset-y-8 bg-gradient-to-t from-primary/10 to-transparent rounded-full animate-pulse [animation-duration:4s] [animation-delay:300ms]"></div>
+            <div className="absolute inset-x-16 inset-y-16 bg-gradient-to-t from-primary/10 to-transparent rounded-full animate-pulse [animation-duration:4s] [animation-delay:600ms]"></div>
 
             <Card className="absolute top-0 -left-4 sm:-left-8 w-52 bg-white/80 backdrop-blur-sm shadow-xl animate-[float_8s_ease-in-out_infinite] transform -rotate-12 z-20 border-none">
                 <CardContent className="p-3 flex items-center gap-2">
@@ -112,8 +106,8 @@ export function AppPromo() {
                 <div className="h-[46px] w-[3px] bg-gray-800 absolute -start-[17px] top-[124px] rounded-s-lg"></div>
                 <div className="h-[46px] w-[3px] bg-gray-800 absolute -start-[17px] top-[178px] rounded-s-lg"></div>
                 <div className="h-[64px] w-[3px] bg-gray-800 absolute -end-[17px] top-[142px] rounded-e-lg"></div>
-                <div className="rounded-[2rem] overflow-hidden w-full h-full bg-bakery-yellow flex items-center justify-center">
-                   <div className="w-full h-full p-4 bg-bakery-yellow/80">
+                <div className="rounded-[2rem] overflow-hidden w-full h-full bg-bakery-yellow flex flex-col justify-between">
+                   <div className="w-full p-4 bg-bakery-yellow/80">
                       <div className="text-center mb-4">
                          <h3 className="font-headline text-lg font-bold">Mumira's Cakes</h3>
                          <p className="text-sm text-muted-foreground">Sweet dreams delivered</p>
@@ -129,21 +123,27 @@ export function AppPromo() {
                            <Button size="sm" className="w-full">Order Now</Button>
                         </CardContent>
                       </Card>
-                       <div className="grid grid-cols-2 gap-4 mt-4">
-                          <Card className="bg-white/70 border-none shadow-sm">
-                             <CardContent className="p-3 text-center">
-                               <span className="text-2xl" role="img" aria-label="cupcake">🧁</span>
-                               <p className="text-sm font-semibold mt-1">Cupcakes</p>
-                             </CardContent>
-                          </Card>
-                          <Card className="bg-white/70 border-none shadow-sm">
-                             <CardContent className="p-3 text-center">
-                                <span className="text-2xl" role="img" aria-label="cake slice">🍰</span>
-                               <p className="text-sm font-semibold mt-1">Custom</p>
-                             </CardContent>
-                          </Card>
-                       </div>
                    </div>
+                    <div className="w-full bg-white/50 backdrop-blur-sm border-t border-gray-200/50 p-2">
+                        <div className="flex justify-around items-center">
+                            <div className="flex flex-col items-center text-primary cursor-pointer">
+                                <Home className="h-6 w-6" />
+                                <span className="text-xs font-medium">Home</span>
+                            </div>
+                            <div className="flex flex-col items-center text-muted-foreground/80 hover:text-primary transition-colors cursor-pointer">
+                                <Cake className="h-6 w-6" />
+                                <span className="text-xs font-medium">Cakes</span>
+                            </div>
+                            <div className="flex flex-col items-center text-muted-foreground/80 hover:text-primary transition-colors cursor-pointer">
+                                <Gift className="h-6 w-6" />
+                                <span className="text-xs font-medium">Gifts</span>
+                            </div>
+                            <div className="flex flex-col items-center text-muted-foreground/80 hover:text-primary transition-colors cursor-pointer">
+                                <UserCircle className="h-6 w-6" />
+                                <span className="text-xs font-medium">Profile</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
           </div>
