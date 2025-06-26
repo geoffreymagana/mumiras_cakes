@@ -1,3 +1,27 @@
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
+import { Hero } from '@/components/sections/hero';
+import { CakeCarousel } from '@/components/sections/cake-carousel';
+import { BrandStory } from '@/components/sections/brand-story';
+import { ShopPreview } from '@/components/sections/shop-preview';
+import { Testimonials } from '@/components/sections/testimonials';
+import { CustomOrderForm } from '@/components/sections/custom-order-form';
+import { BlogShowcase } from '@/components/sections/blog-showcase';
+
 export default function Home() {
-  return <></>;
+  return (
+    <div className="flex flex-col min-h-dvh bg-background">
+      <Header />
+      <main className="flex-1">
+        <Hero />
+        <CakeCarousel />
+        <BrandStory />
+        <ShopPreview />
+        <Testimonials />
+        <CustomOrderForm />
+        <BlogShowcase />
+      </main>
+      <Footer />
+    </div>
+  );
 }
