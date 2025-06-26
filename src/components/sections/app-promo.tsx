@@ -2,7 +2,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { ShoppingBag, Palette, Bell, Gift, Rocket, Sparkles, Home, Cake, UserCircle, CakeSlice } from 'lucide-react';
 
 export function AppPromo() {
@@ -119,7 +118,7 @@ export function AppPromo() {
                     <div className="flex-grow overflow-y-auto scrollbar-hide p-3 space-y-4 text-xs">
                         <div>
                             <h4 className="font-bold text-gray-700 mb-2">Categories</h4>
-                            <ScrollArea className="w-full whitespace-nowrap rounded-md">
+                            <div className="w-full whitespace-nowrap overflow-x-auto scrollbar-hide">
                                 <div className="flex w-max space-x-2 pb-2">
                                     <Button size="sm" variant="secondary" className="h-7 rounded-full text-xs">Birthdays</Button>
                                     <Button size="sm" variant="outline" className="h-7 rounded-full text-xs bg-white">Weddings</Button>
@@ -127,8 +126,7 @@ export function AppPromo() {
                                     <Button size="sm" variant="outline" className="h-7 rounded-full text-xs bg-white">Anniversary</Button>
                                     <Button size="sm" variant="outline" className="h-7 rounded-full text-xs bg-white">Bento Cakes</Button>
                                 </div>
-                                <ScrollBar orientation="horizontal" className="h-1.5" />
-                            </ScrollArea>
+                            </div>
                         </div>
 
                         <div>

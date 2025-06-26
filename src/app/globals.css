@@ -89,6 +89,13 @@
 }
 
 @layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
   @keyframes float {
     0% { transform: translateY(0px); }
     50% { transform: translateY(-15px); }
