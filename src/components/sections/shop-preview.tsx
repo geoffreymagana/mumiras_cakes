@@ -4,21 +4,21 @@ const featuredProducts = [
   {
     name: "Celebration Sprinkle",
     description: "A fun and festive vanilla bean cake loaded with colorful sprinkles.",
-    price: "$48",
+    price: "Ksh 4,800",
     imageSrc: "https://placehold.co/400x300.png",
     imageHint: "sprinkle cake"
   },
   {
     name: "Classic Carrot Cake",
     description: "Perfectly spiced carrot cake with a tangy cream cheese frosting and walnuts.",
-    price: "$55",
+    price: "Ksh 5,500",
     imageSrc: "https://placehold.co/400x300.png",
     imageHint: "carrot cake"
   },
   {
     name: "Cookies & Cream",
     description: "A chocolate lover's dream with Oreo chunks baked in and on top.",
-    price: "$58",
+    price: "Ksh 5,800",
     imageSrc: "https://placehold.co/400x300.png",
     imageHint: "cookies cream cake"
   },

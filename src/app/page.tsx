@@ -7,6 +7,7 @@ import { ShopPreview } from '@/components/sections/shop-preview';
 import { Testimonials } from '@/components/sections/testimonials';
 import { CustomOrderForm } from '@/components/sections/custom-order-form';
 import { BlogShowcase } from '@/components/sections/blog-showcase';
+import { AppPromo } from '@/components/sections/app-promo';
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
         <BrandStory />
         <ShopPreview />
         <Testimonials />
+        <AppPromo />
         <CustomOrderForm />
         <BlogShowcase />
       </main>

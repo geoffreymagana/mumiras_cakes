@@ -8,35 +8,35 @@ const signatureCakes = [
   {
     name: "Velvet Dream",
     description: "Classic red velvet with a rich cream cheese frosting, a timeless favorite.",
-    price: "$55",
+    price: "Ksh 5,500",
     imageSrc: "https://placehold.co/400x300.png",
     imageHint: "red velvet cake"
   },
   {
     name: "Lemon Zest Delight",
     description: "A light and airy sponge with tangy lemon curd and a sweet meringue topping.",
-    price: "$50",
+    price: "Ksh 5,000",
     imageSrc: "https://placehold.co/400x300.png",
     imageHint: "lemon meringue cake"
   },
   {
     name: "Chocolate Decadence",
     description: "Layers of rich dark chocolate ganache and moist chocolate cake.",
-    price: "$60",
+    price: "Ksh 6,000",
     imageSrc: "https://placehold.co/400x300.png",
     imageHint: "chocolate ganache cake"
   },
   {
     name: "Strawberry Shortcake Cloud",
     description: "Fresh strawberries and light whipped cream between layers of fluffy vanilla cake.",
-    price: "$52",
+    price: "Ksh 5,200",
     imageSrc: "https://placehold.co/400x300.png",
     imageHint: "strawberry shortcake"
   },
   {
     name: "Caramel Crunch",
     description: "Salted caramel and crunchy honeycomb pieces in a vanilla bean cake.",
-    price: "$58",
+    price: "Ksh 5,800",
     imageSrc: "https://placehold.co/400x300.png",
     imageHint: "caramel cake"
   },
