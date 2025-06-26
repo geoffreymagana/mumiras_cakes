@@ -1,7 +1,8 @@
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { ShoppingBag, Palette, Bell, Gift, Rocket, Sparkles, Home, Cake, UserCircle } from 'lucide-react';
+import { ShoppingBag, Palette, Bell, Gift, Rocket, Sparkles, Home, Cake, UserCircle, CakeSlice } from 'lucide-react';
 
 export function AppPromo() {
   const features = [
@@ -106,42 +107,78 @@ export function AppPromo() {
                 <div className="h-[46px] w-[3px] bg-gray-800 absolute -start-[17px] top-[124px] rounded-s-lg"></div>
                 <div className="h-[46px] w-[3px] bg-gray-800 absolute -start-[17px] top-[178px] rounded-s-lg"></div>
                 <div className="h-[64px] w-[3px] bg-gray-800 absolute -end-[17px] top-[142px] rounded-e-lg"></div>
-                <div className="rounded-[2rem] overflow-hidden w-full h-full bg-bakery-yellow flex flex-col justify-between">
-                   <div className="w-full p-4 bg-bakery-yellow/80">
-                      <div className="text-center mb-4">
-                         <h3 className="font-headline text-lg font-bold">Mumira's Cakes</h3>
-                         <p className="text-sm text-muted-foreground">Sweet dreams delivered</p>
-                      </div>
-                      <Card className="bg-bakery-rose/30 border-none shadow-md">
-                        <CardContent className="p-4 text-center">
-                           <div className="w-32 h-24 bg-bakery-rose/50 rounded-lg mx-auto mb-3 flex items-center justify-center">
-                              <span className="text-3xl" role="img" aria-label="cake">🎂</span>
-                           </div>
-                           <h4 className="font-headline text-md font-bold">Celebration Special</h4>
-                           <p className="text-sm text-muted-foreground mb-2">Perfect for any occasion</p>
-                           <p className="font-bold text-lg text-primary mb-3">Ksh 4,500</p>
-                           <Button size="sm" className="w-full">Order Now</Button>
-                        </CardContent>
-                      </Card>
-                   </div>
-                    <div className="w-full bg-white/50 backdrop-blur-sm border-t border-gray-200/50 p-2">
+                <div className="rounded-[2rem] overflow-hidden w-full h-full bg-white/90 flex flex-col">
+                    <div className="p-3 bg-bakery-cream/80 backdrop-blur-sm border-b border-rose-100">
+                        <div className="flex justify-between items-center">
+                            <h3 className="font-headline text-md font-bold text-gray-800">Mumira's Cakes</h3>
+                            <Bell className="h-4 w-4 text-gray-500"/>
+                        </div>
+                    </div>
+
+                    <div className="flex-grow overflow-y-auto p-3 space-y-4 text-xs">
+                        <div>
+                            <h4 className="font-bold text-gray-700 mb-2">Categories</h4>
+                            <div className="flex space-x-2 overflow-x-auto pb-2 -mx-3 px-3">
+                                <Button size="sm" variant="secondary" className="h-7 rounded-full text-xs flex-shrink-0">Birthdays</Button>
+                                <Button size="sm" variant="outline" className="h-7 rounded-full text-xs flex-shrink-0 bg-white">Weddings</Button>
+                                <Button size="sm" variant="outline" className="h-7 rounded-full text-xs flex-shrink-0 bg-white">Cupcakes</Button>
+                                <Button size="sm" variant="outline" className="h-7 rounded-full text-xs flex-shrink-0 bg-white">Anniversary</Button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 className="font-bold text-gray-700 mb-2">Featured Cake</h4>
+                            <Card className="bg-bakery-rose/30 border-none shadow-md">
+                              <CardContent className="p-3 flex items-center gap-3">
+                                 <div className="w-16 h-16 bg-bakery-rose/50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <span className="text-2xl" role="img" aria-label="cake">🎂</span>
+                                 </div>
+                                 <div>
+                                    <h5 className="font-headline text-sm font-bold">Celebration Special</h5>
+                                    <p className="text-xs text-muted-foreground mb-1">Perfect for any occasion</p>
+                                    <p className="font-bold text-sm text-primary">Ksh 4,500</p>
+                                 </div>
+                              </CardContent>
+                            </Card>
+                        </div>
+
+                        <div>
+                            <h4 className="font-bold text-gray-700 mb-2">Recent Orders</h4>
+                            <div className="space-y-2">
+                                <Card className="bg-white border-rose-100 shadow-sm">
+                                    <CardContent className="p-2 flex justify-between items-center">
+                                        <div className="flex items-center gap-2">
+                                            <CakeSlice className="h-4 w-4 text-primary"/>
+                                            <div>
+                                                <p className="font-semibold">Velvet Dream</p>
+                                                <p className="text-muted-foreground text-xs">Order #1023</p>
+                                            </div>
+                                        </div>
+                                        <Badge variant="secondary" className="text-xs">Processing</Badge>
+                                    </CardContent>
+                                </Card>
+                                <Card className="bg-white border-rose-100 shadow-sm">
+                                    <CardContent className="p-2 flex justify-between items-center">
+                                        <div className="flex items-center gap-2">
+                                            <CakeSlice className="h-4 w-4 text-primary"/>
+                                            <div>
+                                                <p className="font-semibold">Lemon Zest</p>
+                                                <p className="text-muted-foreground text-xs">Order #1021</p>
+                                            </div>
+                                        </div>
+                                        <Badge variant="outline" className="text-xs border-green-300 bg-green-50 text-green-800">Delivered</Badge>
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="w-full bg-white/80 backdrop-blur-sm border-t border-gray-200/50 p-3 mt-auto">
                         <div className="flex justify-around items-center">
-                            <div className="flex flex-col items-center text-primary cursor-pointer">
-                                <Home className="h-6 w-6" />
-                                <span className="text-xs font-medium">Home</span>
-                            </div>
-                            <div className="flex flex-col items-center text-muted-foreground/80 hover:text-primary transition-colors cursor-pointer">
-                                <Cake className="h-6 w-6" />
-                                <span className="text-xs font-medium">Cakes</span>
-                            </div>
-                            <div className="flex flex-col items-center text-muted-foreground/80 hover:text-primary transition-colors cursor-pointer">
-                                <Gift className="h-6 w-6" />
-                                <span className="text-xs font-medium">Gifts</span>
-                            </div>
-                            <div className="flex flex-col items-center text-muted-foreground/80 hover:text-primary transition-colors cursor-pointer">
-                                <UserCircle className="h-6 w-6" />
-                                <span className="text-xs font-medium">Profile</span>
-                            </div>
+                            <Home className="h-5 w-5 text-primary" />
+                            <Cake className="h-5 w-5 text-muted-foreground/80 hover:text-primary transition-colors cursor-pointer" />
+                            <Gift className="h-5 w-5 text-muted-foreground/80 hover:text-primary transition-colors cursor-pointer" />
+                            <UserCircle className="h-5 w-5 text-muted-foreground/80 hover:text-primary transition-colors cursor-pointer" />
                         </div>
                     </div>
                 </div>
