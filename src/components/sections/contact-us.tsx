@@ -108,8 +108,8 @@ export function ContactUs() {
                   <div className="flex items-start gap-4">
                     <MapPin className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
                     <span>
-                      123 Sweet Street, Pastry Plaza<br />
-                      Nairobi, Kenya
+                      Kikuyu<br />
+                      Kiambu County, Kenya
                     </span>
                   </div>
                    <div className="flex items-center gap-4">
@@ -123,21 +123,14 @@ export function ContactUs() {
                 </div>
             </div>
              <div className="relative h-80 w-full rounded-2xl overflow-hidden shadow-lg">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d997.0377200232039!2d36.66482277467666!3d-1.2422395164607822!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMcKwMTQnMzEuOCJTIDM2wrAzOSc1NC4zIkU!5e0!3m2!1sen!2ske!4v1750962960271!5m2!1sen!2ske" 
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31911.90595350355!2d36.64259962512684!3d-1.244837543881335!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f263c93710729%3A0x6a08e612f8a8e104!2sKikuyu!5e0!3m2!1sen!2ske!4v1751052631589!5m2!1sen!2ske"
                     className="w-full h-full"
                     style={{border:0}} 
                     allowFullScreen={true} 
                     loading="lazy" 
                     referrerPolicy="no-referrer-when-downgrade">
                 </iframe>
-                <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
-                    <Button asChild variant="secondary">
-                        <a href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer">
-                            Open in Google Maps
-                        </a>
-                    </Button>
-                </div>
               </div>
           </div>
         </div>
