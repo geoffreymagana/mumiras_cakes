@@ -10,6 +10,7 @@ export function Footer() {
     { name: 'Our Story', href: '#about' },
     { name: 'Signature Cakes', href: '#cakes' },
     { name: 'Custom Orders', href: '#custom-order' },
+    { name: 'FAQ', href: '#faq' },
     { name: 'Blog', href: '#blog' },
   ];
 

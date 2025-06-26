@@ -9,6 +9,7 @@ export function Header() {
     { name: 'Our Story', href: '#about' },
     { name: 'Cakes', href: '#cakes' },
     { name: 'Testimonials', href: '#testimonials' },
+    { name: 'FAQ', href: '#faq' },
     { name: 'Order', href: '#custom-order' },
     { name: 'Blog', href: '#blog' },
   ];
@@ -46,9 +47,9 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right">
-                <SheetHeader className="sr-only">
-                  <SheetTitle>Menu</SheetTitle>
-                  <SheetDescription>
+                <SheetHeader>
+                  <SheetTitle className="sr-only">Menu</SheetTitle>
+                  <SheetDescription className="sr-only">
                     Main navigation links for the website.
                   </SheetDescription>
                 </SheetHeader>
