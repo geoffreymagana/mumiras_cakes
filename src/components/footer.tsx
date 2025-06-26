@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Logo } from './logo';
 import { Button } from './ui/button';
+import { Input } from './ui/input';
 import { Twitter, Instagram, Facebook } from 'lucide-react';
 
 export function Footer() {
@@ -65,7 +66,16 @@ export function Footer() {
                <div>
                   <h3 className="text-sm font-semibold leading-6 font-headline text-foreground">Stay in touch</h3>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">Subscribe to our newsletter for special offers and new cake alerts!</p>
-                  {/* Newsletter form can be added here */}
+                  <form className="mt-4 flex flex-col sm:flex-row gap-2">
+                    <label htmlFor="footer-email" className="sr-only">Email address</label>
+                    <Input
+                      id="footer-email"
+                      type="email"
+                      placeholder="Enter your email"
+                      className="flex-grow"
+                    />
+                    <Button type="submit">Subscribe</Button>
+                  </form>
                </div>
             </div>
           </div>
