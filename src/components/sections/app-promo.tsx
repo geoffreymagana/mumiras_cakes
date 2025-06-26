@@ -107,7 +107,7 @@ export function AppPromo() {
                 <div className="h-[46px] w-[3px] bg-gray-800 absolute -start-[17px] top-[124px] rounded-s-lg"></div>
                 <div className="h-[46px] w-[3px] bg-gray-800 absolute -start-[17px] top-[178px] rounded-s-lg"></div>
                 <div className="h-[64px] w-[3px] bg-gray-800 absolute -end-[17px] top-[142px] rounded-e-lg"></div>
-                <div className="rounded-[2rem] overflow-hidden w-full h-full bg-white/90 flex flex-col">
+                <div className="rounded-[2rem] overflow-hidden w-full h-full bg-bakery-cream flex flex-col">
                     <div className="p-3 bg-bakery-cream/80 backdrop-blur-sm border-b border-rose-100">
                         <div className="flex justify-between items-center">
                             <h3 className="font-headline text-md font-bold text-gray-800">Mumira's Cakes</h3>
@@ -118,11 +118,11 @@ export function AppPromo() {
                     <div className="flex-grow overflow-y-auto p-3 space-y-4 text-xs">
                         <div>
                             <h4 className="font-bold text-gray-700 mb-2">Categories</h4>
-                            <div className="flex space-x-2 overflow-x-auto pb-2 -mx-3 px-3">
-                                <Button size="sm" variant="secondary" className="h-7 rounded-full text-xs flex-shrink-0">Birthdays</Button>
-                                <Button size="sm" variant="outline" className="h-7 rounded-full text-xs flex-shrink-0 bg-white">Weddings</Button>
-                                <Button size="sm" variant="outline" className="h-7 rounded-full text-xs flex-shrink-0 bg-white">Cupcakes</Button>
-                                <Button size="sm" variant="outline" className="h-7 rounded-full text-xs flex-shrink-0 bg-white">Anniversary</Button>
+                            <div className="flex flex-wrap gap-2 pb-2">
+                                <Button size="sm" variant="secondary" className="h-7 rounded-full text-xs">Birthdays</Button>
+                                <Button size="sm" variant="outline" className="h-7 rounded-full text-xs bg-white">Weddings</Button>
+                                <Button size="sm" variant="outline" className="h-7 rounded-full text-xs bg-white">Cupcakes</Button>
+                                <Button size="sm" variant="outline" className="h-7 rounded-full text-xs bg-white">Anniversary</Button>
                             </div>
                         </div>
 
@@ -130,8 +130,8 @@ export function AppPromo() {
                             <h4 className="font-bold text-gray-700 mb-2">Featured Cake</h4>
                             <Card className="bg-bakery-rose/30 border-none shadow-md">
                               <CardContent className="p-3 flex items-center gap-3">
-                                 <div className="w-16 h-16 bg-bakery-rose/50 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <span className="text-2xl" role="img" aria-label="cake">🎂</span>
+                                 <div className="w-20 h-20 bg-bakery-rose/50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <span className="text-4xl" role="img" aria-label="cake">🎂</span>
                                  </div>
                                  <div>
                                     <h5 className="font-headline text-sm font-bold">Celebration Special</h5>
