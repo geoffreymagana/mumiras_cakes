@@ -1,8 +1,10 @@
 "use client";
 
 import * as React from "react";
+import type { CarouselApi } from "@/components/ui/carousel";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { CakeCard } from "@/components/cake-card";
+import { Button } from "@/components/ui/button";
 
 const signatureCakes = [
   {
@@ -43,6 +45,31 @@ const signatureCakes = [
 ];
 
 export function CakeCarousel() {
+  const [api, setApi] = React.useState<CarouselApi>();
+  const [current, setCurrent] = React.useState(0);
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap());
+
+    const onSelect = () => {
+      setCurrent(api.selectedScrollSnap());
+    };
+    
+    api.on("select", onSelect);
+    api.on("reInit", onSelect);
+
+    return () => {
+      api.off("select", onSelect);
+      api.off("reInit", onSelect);
+    };
+  }, [api]);
+
   return (
     <section id="cakes" className="w-full py-20 lg:py-32">
       <div className="container mx-auto px-4 md:px-6">
@@ -53,6 +80,7 @@ export function CakeCarousel() {
           </p>
         </div>
         <Carousel
+          setApi={setApi}
           opts={{
             align: "start",
             loop: true,
@@ -69,6 +97,23 @@ export function CakeCarousel() {
           <CarouselPrevious className="hidden md:inline-flex" />
           <CarouselNext className="hidden md:inline-flex" />
         </Carousel>
+        <div className="flex justify-center items-center gap-2 mt-8">
+          {Array.from({ length: count }).map((_, index) => (
+            <Button
+              key={index}
+              variant="ghost"
+              className={
+                "h-2.5 w-2.5 rounded-full p-0 " +
+                (index === current
+                  ? "bg-primary"
+                  : "bg-primary/20 hover:bg-primary/40")
+              }
+              onClick={() => api?.scrollTo(index)}
+            >
+              <span className="sr-only">Go to slide {index + 1}</span>
+            </Button>
+          ))}
+        </div>
       </div>
     </section>
   );
