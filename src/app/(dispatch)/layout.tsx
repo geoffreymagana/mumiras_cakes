@@ -1,8 +1,3 @@
-
-export const metadata = {
-  title: 'Dispatch App - Mumira\'s Cakes',
-};
-
-export default function DispatchLayout({children}: {children: React.ReactNode}) {
-  return <>{children}</>;
-}
+// This file is intentionally blank to resolve a routing conflict
+// due to the multi-domain setup. The correct layout is served
+// from a directory with the same name, but without the parentheses.
