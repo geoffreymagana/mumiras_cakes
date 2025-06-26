@@ -9,6 +9,7 @@ import { CustomOrderForm } from '@/components/sections/custom-order-form';
 import { BlogShowcase } from '@/components/sections/blog-showcase';
 import { AppPromo } from '@/components/sections/app-promo';
 import { Faq } from '@/components/sections/faq';
+import { ContactUs } from '@/components/sections/contact-us';
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
         <BlogShowcase />
         <Faq />
         <CustomOrderForm />
+        <ContactUs />
       </main>
       <Footer />
     </div>

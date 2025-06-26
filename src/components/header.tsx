@@ -12,6 +12,7 @@ export function Header() {
     { name: 'FAQ', href: '#faq' },
     { name: 'Order', href: '#custom-order' },
     { name: 'Blog', href: '#blog' },
+    { name: 'Contact', href: '#contact' },
   ];
 
   return (

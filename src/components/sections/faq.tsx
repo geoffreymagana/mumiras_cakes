@@ -104,7 +104,7 @@ export function Faq() {
         <div className="mt-20 flex flex-col sm:flex-row items-center justify-center gap-6 text-center">
           <p className="text-xl font-medium">Still have questions?</p>
           <Button asChild size="lg">
-            <a href="#custom-order">Contact Us Today</a>
+            <a href="#contact">Contact Us Today</a>
           </Button>
         </div>
       </div>

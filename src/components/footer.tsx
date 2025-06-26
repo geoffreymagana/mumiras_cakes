@@ -12,6 +12,7 @@ export function Footer() {
     { name: 'Custom Orders', href: '#custom-order' },
     { name: 'FAQ', href: '#faq' },
     { name: 'Blog', href: '#blog' },
+    { name: 'Contact', href: '#contact' },
   ];
 
   const socialLinks = [
