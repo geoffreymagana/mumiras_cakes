@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -57,6 +58,12 @@ const formSchema = z.object({
 
 export function CustomOrderForm() {
   const { toast } = useToast()
+  const [isClient, setIsClient] = React.useState(false)
+
+  React.useEffect(() => {
+    setIsClient(true)
+  }, [])
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -235,8 +242,9 @@ export function CustomOrderForm() {
                               mode="single"
                               selected={field.value}
                               onSelect={field.onChange}
-                              disabled={(date) =>
-                                date < new Date(new Date().setDate(new Date().getDate()))
+                              disabled={isClient ? (date) =>
+                                date < new Date(new Date().setHours(0, 0, 0, 0))
+                                : undefined
                               }
                               initialFocus
                             />

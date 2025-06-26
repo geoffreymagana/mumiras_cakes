@@ -1,12 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import type { DateRange } from "react-day-picker";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 
 export default function CalendarPage() {
     const [days, setDays] = useState<Date[] | undefined>();
+    const [isClient, setIsClient] = useState(false)
+
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
 
     return (
         <Card>
@@ -18,12 +22,16 @@ export default function CalendarPage() {
                 </CardDescription>
             </CardHeader>
             <CardContent className="flex justify-center pt-6">
-                <Calendar
-                    mode="multiple"
-                    selected={days}
-                    onSelect={setDays}
-                    className="p-0 rounded-md border"
-                />
+                {isClient ? (
+                    <Calendar
+                        mode="multiple"
+                        selected={days}
+                        onSelect={setDays}
+                        className="p-0 rounded-md border"
+                    />
+                ) : (
+                    <div className="p-0 rounded-md border w-[280px] h-[325px]" />
+                )}
             </CardContent>
         </Card>
     )
