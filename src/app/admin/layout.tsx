@@ -20,7 +20,7 @@ import {
   Users,
   Bell,
   Home,
-  User,
+  UserCircle,
 } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -35,7 +35,7 @@ const bottomNavLinks = [
     { href: "/admin", icon: LayoutDashboard, label: "Dashboard" },
     { href: "/admin/orders", icon: ShoppingCart, label: "Orders" },
     { href: "/admin/products", icon: CakeSlice, label: "Products" },
-    { href: "/admin/profile", icon: User, label: "Profile" },
+    { href: "/admin/profile", icon: UserCircle, label: "Profile" },
 ];
 
 
