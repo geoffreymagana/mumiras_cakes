@@ -25,8 +25,14 @@ export default async function middleware(req: NextRequest) {
           .replace(`.vercel.app`, '')
       : hostname.replace(`.localhost:9002`, '');
       
+  // If admin subdomain, rewrite to /admin folder
   if (currentHost === 'admin') {
     url.pathname = `/admin${url.pathname}`;
+    return NextResponse.rewrite(url);
+  }
+
+  // If path starts with /admin, rewrite to /admin folder
+  if (url.pathname.startsWith('/admin')) {
     return NextResponse.rewrite(url);
   }
 
