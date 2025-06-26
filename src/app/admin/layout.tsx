@@ -35,7 +35,6 @@ const bottomNavLinks = [
     { href: "/admin", icon: LayoutDashboard, label: "Dashboard" },
     { href: "/admin/orders", icon: ShoppingCart, label: "Orders" },
     { href: "/admin/products", icon: CakeSlice, label: "Products" },
-    { href: "/admin/notifications", icon: Bell, label: "Alerts" },
     { href: "/admin/profile", icon: User, label: "Profile" },
 ];
 
@@ -148,7 +147,7 @@ export default function AdminLayout({
           {children}
         </main>
         <nav className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background p-2 md:hidden">
-            <div className="grid h-full max-w-lg grid-cols-5 mx-auto">
+            <div className="grid h-full max-w-lg grid-cols-4 mx-auto">
                 {bottomNavLinks.map((link) => (
                     <Link key={link.href} href={link.href} className="inline-flex flex-col items-center justify-center font-medium text-muted-foreground hover:bg-muted hover:text-foreground rounded-lg p-2 group">
                         <link.icon className="w-6 h-6 mb-1 text-muted-foreground group-hover:text-primary" />
