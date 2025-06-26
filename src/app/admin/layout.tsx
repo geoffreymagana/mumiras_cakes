@@ -21,6 +21,7 @@ import {
   Bell,
   Home,
   UserCircle,
+  Landmark,
 } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -73,6 +74,14 @@ export default function AdminLayout({
                 <Link href="/admin/products">
                   <CakeSlice />
                   Products
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton href="/admin/financials" asChild>
+                <Link href="/admin/financials">
+                  <Landmark />
+                  Financials
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
