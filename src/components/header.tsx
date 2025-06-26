@@ -40,6 +40,11 @@ export function Header() {
           <Button variant="ghost" size="icon" aria-label="Shopping cart">
             <ShoppingBag />
           </Button>
+
+          <Button asChild variant="outline" size="sm" className="hidden md:inline-flex">
+            <Link href="/admin">Admin</Link>
+          </Button>
+
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
@@ -65,6 +70,11 @@ export function Header() {
                         {link.name}
                         </Link>
                     ))}
+                    <div className="pt-6 border-t mt-6">
+                      <Button asChild className="w-full">
+                        <Link href="/admin">Admin Dashboard</Link>
+                      </Button>
+                    </div>
                 </div>
               </SheetContent>
             </Sheet>
