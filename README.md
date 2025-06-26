@@ -10,6 +10,8 @@ Welcome to the Mumira's Cakes project! This is a comprehensive web platform buil
 - [Deployment & Subdomains (Vercel)](#deployment--subdomains-vercel)
   - [Using a Custom Domain](#using-a-custom-domain)
   - [Using the Default `.vercel.app` Domain](#using-the-default-vercelapp-domain)
+- [License](#license)
+- [Contributing](#contributing)
 
 ## Tech Stack
 
@@ -95,3 +97,13 @@ When you deploy to Vercel, you get a default URL like `your-project-name.vercel.
 - **Dispatch App**: `https://your-project-name.vercel.app/dispatch`
 
 No extra configuration is needed for this to work.
+
+## License
+
+The code for this project is proprietary and confidential. Unauthorized copying, modification, distribution, or use of this software, or any portion of it, is strictly prohibited.
+
+The open-source libraries and dependencies used in this project are subject to their own respective licenses.
+
+## Contributing
+
+As this is a proprietary project, we are not accepting external contributions at this time. If you have suggestions or find issues, please contact the project owner.
