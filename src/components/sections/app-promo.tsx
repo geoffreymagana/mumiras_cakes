@@ -1,8 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { ShoppingBag, Palette, Bell, Gift, Rocket, Truck } from 'lucide-react';
-import { Progress } from '@/components/ui/progress';
+import { ShoppingBag, Palette, Bell, Gift, Rocket, Sparkles } from 'lucide-react';
 
 export function AppPromo() {
   const features = [
@@ -73,34 +72,38 @@ export function AppPromo() {
           </div>
           <div className="relative flex items-center justify-center lg:pl-12 h-[600px] lg:h-auto mt-12 lg:mt-0">
              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-full max-w-md h-full max-h-md aspect-square bg-primary/5 rounded-full animate-pulse [animation-duration:4s]"></div>
+                <div className="w-full max-w-md h-full max-h-md aspect-square bg-transparent border-2 border-primary/10 rounded-full animate-pulse [animation-duration:4s]"></div>
               </div>
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-full max-w-lg h-full max-h-lg aspect-square bg-primary/5 rounded-full animate-pulse [animation-duration:4s] [animation-delay:300ms]"></div>
+                <div className="w-full max-w-lg h-full max-h-lg aspect-square bg-transparent border-2 border-primary/10 rounded-full animate-pulse [animation-duration:4s] [animation-delay:300ms]"></div>
               </div>
                <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-full max-w-xl h-full max-h-xl aspect-square bg-primary/5 rounded-full animate-pulse [animation-duration:4s] [animation-delay:600ms]"></div>
+                <div className="w-full max-w-xl h-full max-h-xl aspect-square bg-transparent border-2 border-primary/10 rounded-full animate-pulse [animation-duration:4s] [animation-delay:600ms]"></div>
               </div>
 
-            <Card className="absolute top-0 -left-4 sm:-left-8 w-48 bg-white/80 backdrop-blur-sm shadow-xl animate-[float_8s_ease-in-out_infinite] transform -rotate-12 z-20 border-none">
+            <Card className="absolute top-0 -left-4 sm:-left-8 w-52 bg-white/80 backdrop-blur-sm shadow-xl animate-[float_8s_ease-in-out_infinite] transform -rotate-12 z-20 border-none">
                 <CardContent className="p-3 flex items-center gap-2">
-                    <div className="bg-mint-frosting p-2 rounded-full">
-                        <Truck className="h-5 w-5 text-minty-teal" />
+                    <div className="bg-secondary p-2 rounded-full">
+                        <Gift className="h-5 w-5 text-secondary-foreground" />
                     </div>
                     <div>
-                        <p className="font-bold text-sm text-foreground">Order Shipped!</p>
-                        <p className="text-xs text-muted-foreground">Your cake is on its way.</p>
+                        <p className="font-bold text-sm text-foreground">Gift Delivered!</p>
+                        <p className="text-xs text-muted-foreground">Alex received your surprise.</p>
                     </div>
                 </CardContent>
             </Card>
 
             <Card className="absolute -bottom-8 -right-4 sm:-right-8 w-56 bg-white/80 backdrop-blur-sm shadow-xl animate-[float_10s_ease-in-out_infinite_1s] transform rotate-6 z-20 border-none">
                 <CardContent className="p-3">
-                    <div className="flex items-center gap-2 mb-2">
-                        <Gift className="h-5 w-5 text-cherry-red" />
-                        <p className="font-bold text-sm text-foreground">You've earned 50 points!</p>
+                    <div className="flex items-center gap-2">
+                        <div className="bg-accent/80 p-2 rounded-full">
+                            <Sparkles className="h-5 w-5 text-accent-foreground" />
+                        </div>
+                        <div>
+                            <p className="font-bold text-sm text-foreground">New Treat Alert!</p>
+                            <p className="text-xs text-muted-foreground">Mocha-Chip Muffins are here.</p>
+                        </div>
                     </div>
-                    <Progress value={50} className="h-2 [&>div]:bg-cherry-red" />
                 </CardContent>
             </Card>
 
