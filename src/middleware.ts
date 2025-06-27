@@ -25,7 +25,7 @@ export default async function middleware(req: NextRequest) {
           .replace(`.vercel.app`, '')
       : hostname.replace(`.localhost:9002`, '');
       
-  // Handle subdomain routing
+  // Handle subdomain routing for admin, app, and dispatch
   if (currentHost === 'admin') {
     url.pathname = `/admin${url.pathname}`;
     return NextResponse.rewrite(url);
@@ -39,21 +39,16 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.rewrite(url);
   }
 
-  // Handle path-based routing for the main domain (e.g. on default vercel.app domains)
+  // Handle path-based routing for vercel.app URLs or direct path access
   if (
     url.pathname.startsWith('/admin') ||
     url.pathname.startsWith('/app') ||
     url.pathname.startsWith('/dispatch')
   ) {
-    return NextResponse.rewrite(url);
+    return NextResponse.next();
   }
 
-  // Rewrite all non-root paths on the main domain to /site
-  if (url.pathname !== '/') {
-    url.pathname = `/site${url.pathname}`;
-    return NextResponse.rewrite(url);
-  }
-
-  // Allow the root path to be handled by src/app/page.tsx
-  return NextResponse.next();
+  // Everything else is the main site, so rewrite to the /site directory
+  url.pathname = `/site${url.pathname}`;
+  return NextResponse.rewrite(url);
 }
