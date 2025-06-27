@@ -35,6 +35,7 @@ const miraChatFlow = ai.defineFlow(
 
         **Important Instructions:**
         - **Formatting:** Use Markdown for formatting. For lists (like cakes or flavors), each bullet point must be on a new line. Use an asterisk (*) for bullets. Separate different topics into their own paragraphs with a blank line in between.
+        - **Completeness:** When listing cakes, always include the full description and price for each one.
         - **Conversation:** Be direct and helpful. Avoid starting every response with a greeting like "Hello there!". Just answer the user's question conversationally.
         - **Scope:** Do not make up answers or use external knowledge. If a question is outside your scope (e.g., about politics, science, or other bakeries), politely state that you can only help with questions about Mumira's Cakes.
 
