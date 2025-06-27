@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter, SheetTrigger } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
@@ -12,11 +12,12 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
 type Message = {
+  id: string;
   role: 'user' | 'mira' | 'loading';
   content: string;
 };
 
-const MiraMarkdown = ({ text }: { text: string }) => {
+const MiraMarkdown = ({ text, onTextUpdate }: { text: string; onTextUpdate?: () => void }) => {
   const [displayedText, setDisplayedText] = useState('');
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const MiraMarkdown = ({ text }: { text: string }) => {
       const typingInterval = setInterval(() => {
         if (i < text.length) {
           setDisplayedText(text.slice(0, i + 1));
+          onTextUpdate?.(); // Trigger scroll on each character
           i++;
         } else {
           clearInterval(typingInterval);
@@ -34,11 +36,10 @@ const MiraMarkdown = ({ text }: { text: string }) => {
 
       return () => clearInterval(typingInterval); // Cleanup
     }
-  }, [text]);
+  }, [text, onTextUpdate]);
 
   const toHtml = (markdown: string) => {
     let html = markdown
-      // Handle bold: **text** -> <strong>text</strong>
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
     const lines = html.split('\n');
@@ -47,7 +48,6 @@ const MiraMarkdown = ({ text }: { text: string }) => {
 
     for (const line of lines) {
       const trimmedLine = line.trim();
-      // Handle lists: * item -> <li>item</li>
       if (trimmedLine.startsWith('* ')) {
         if (!inList) {
           processedHtml += '<ul class="list-disc pl-5 space-y-1">';
@@ -59,7 +59,6 @@ const MiraMarkdown = ({ text }: { text: string }) => {
           processedHtml += '</ul>';
           inList = false;
         }
-        // Wrap other lines in <p> tags for paragraph spacing
         if (trimmedLine) {
           processedHtml += `<p>${trimmedLine}</p>`;
         }
@@ -70,7 +69,6 @@ const MiraMarkdown = ({ text }: { text: string }) => {
       processedHtml += '</ul>';
     }
 
-    // Clean up empty paragraphs that might result from multiple newlines
     return processedHtml.replace(/<p>\s*<\/p>/g, '');
   };
 
@@ -81,51 +79,60 @@ const MiraMarkdown = ({ text }: { text: string }) => {
     />
   );
 };
+const MemoizedMiraMarkdown = React.memo(MiraMarkdown);
 
 
 export function MiraChat() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: 'mira-initial',
+      role: 'mira',
+      content: "Hello! I'm Mira, your friendly guide to Mumira's Cakes. How can I help you today?",
+    }
+  ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const observerRef = useRef<MutationObserver | null>(null);
   const { toast } = useToast();
 
+  const scrollToBottom = useCallback(() => {
+    const viewport = viewportRef.current;
+    if (viewport) {
+      viewport.scrollTop = viewport.scrollHeight;
+    }
+  }, []);
+
   useEffect(() => {
-    const scrollAreaNode = scrollAreaRef.current;
-    // The viewport is the element that actually scrolls.
-    const viewportNode = scrollAreaNode?.querySelector<HTMLDivElement>('div[data-radix-scroll-area-viewport]');
+    const viewport = viewportRef.current;
+    if (!viewport) return;
 
-    if (!viewportNode) return;
-
-    // Function to scroll to the bottom.
-    const scrollToBottom = () => {
-      viewportNode.scrollTop = viewportNode.scrollHeight;
-    };
-
-    // Initial scroll to bottom when the component mounts.
-    scrollToBottom();
-
-    // Create an observer to watch for any changes in the viewport's content.
-    // This will catch new messages and the typing animation.
-    const observer = new MutationObserver(scrollToBottom);
-    observer.observe(viewportNode, {
-      childList: true, // Watch for new messages being added
-      subtree: true,   // Watch for text changes within messages (typing effect)
+    observerRef.current = new MutationObserver(scrollToBottom);
+    observerRef.current.observe(viewport, {
+      childList: true,
+      subtree: true,
     });
 
-    // Clean up the observer when the component is unmounted.
     return () => {
-      observer.disconnect();
+      observerRef.current?.disconnect();
     };
-  }, []); // The empty dependency array ensures this setup runs only once.
+  }, [scrollToBottom, isOpen]);
   
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        scrollToBottom();
+      }, 100); 
+    }
+  }, [isOpen, scrollToBottom]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isLoading || !input.trim()) return;
 
-    const userMessage: Message = { role: 'user', content: input };
-    const loadingMessage: Message = { role: 'loading', content: '...' };
+    const userMessage: Message = { id: `user-${Date.now()}`, role: 'user', content: input };
+    const loadingMessage: Message = { id: `loading-${Date.now()}`, role: 'loading', content: '...' };
     
     setMessages((prev) => [...prev, userMessage, loadingMessage]);
     setInput('');
@@ -133,11 +140,11 @@ export function MiraChat() {
 
     try {
       const miraResponse = await askMira(input);
-      const aiMessage: Message = { role: 'mira', content: miraResponse };
+      const aiMessage: Message = { id: `mira-${Date.now()}`, role: 'mira', content: miraResponse };
       setMessages((prev) => [...prev.slice(0, -1), aiMessage]);
     } catch (error) {
       console.error('Error fetching AI response:', error);
-      const errorMessage: Message = { role: 'mira', content: "Oh dear, something went wrong. Please try again in a moment." };
+      const errorMessage: Message = { id: `error-${Date.now()}`, role: 'mira', content: "Oh dear, something went wrong. Please try again in a moment." };
       setMessages((prev) => [...prev.slice(0, -1), errorMessage]);
       toast({
         title: "Chat Error",
@@ -162,61 +169,61 @@ export function MiraChat() {
           </Button>
         </SheetTrigger>
         <SheetContent className="flex flex-col h-full w-full sm:max-w-md p-0">
-          <SheetHeader className="p-4 border-b">
+          <SheetHeader className="p-4 border-b shrink-0">
             <SheetTitle className="flex items-center gap-2 font-headline">
               <Sparkles className="h-5 w-5 text-primary" />
-              Chat with Mira
+              Talk to Mira
             </SheetTitle>
           </SheetHeader>
-          <ScrollArea className="flex-grow p-4" ref={scrollAreaRef}>
-            <div className="space-y-4">
-              <div className="flex gap-3">
-                <Avatar className="h-8 w-8 bg-primary/20 text-primary">
-                  <AvatarFallback><Cake className="h-5 w-5"/></AvatarFallback>
-                </Avatar>
-                <div className="bg-muted rounded-lg p-3 max-w-[80%]">
-                  <p className="text-sm">Hello! I'm Mira, your friendly guide to Mumira's Cakes. How can I help you today?</p>
-                </div>
-              </div>
-              {messages.map((message, index) => (
-                <div key={index} className={cn("flex gap-3", message.role === 'user' && "justify-end")}>
-                  {message.role === 'mira' && (
-                     <Avatar className="h-8 w-8 bg-primary/20 text-primary">
-                        <AvatarFallback><Cake className="h-5 w-5"/></AvatarFallback>
-                    </Avatar>
-                  )}
-                  {message.role === 'loading' ? (
-                     <div className="flex items-center space-x-2">
-                        <Avatar className="h-8 w-8 bg-primary/20 text-primary">
-                           <AvatarFallback><Cake className="h-5 w-5"/></AvatarFallback>
-                        </Avatar>
-                       <div className="bg-muted rounded-lg p-3 max-w-[80%] flex items-center">
+          
+          <div className="flex-1 flex flex-col min-h-0">
+            <ScrollArea className="flex-1" asChild>
+              <div ref={viewportRef} className="px-4 py-4 space-y-4">
+                {messages.map((message) => (
+                  <div key={message.id} className={cn("flex gap-3 w-full", message.role === 'user' && "justify-end")}>
+                    {message.role !== 'user' && (
+                       <Avatar className="h-8 w-8 bg-primary/20 text-primary shrink-0">
+                          <AvatarFallback><Cake className="h-5 w-5"/></AvatarFallback>
+                      </Avatar>
+                    )}
+                    
+                    {message.role === 'loading' ? (
+                       <div className="bg-muted rounded-lg p-3 max-w-[80%] flex items-center space-x-1">
                           <span className="h-2 w-2 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-                          <span className="h-2 w-2 bg-primary rounded-full animate-bounce [animation-delay:-0.15s] mx-1"></span>
+                          <span className="h-2 w-2 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
                           <span className="h-2 w-2 bg-primary rounded-full animate-bounce"></span>
                        </div>
-                     </div>
-                  ) : (
-                    <div
-                      className={cn(
-                        "rounded-lg p-3 max-w-[80%] text-sm", 
-                        message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'
-                      )}
-                    >
-                      {message.role === 'user' ? <p>{message.content}</p> : <MiraMarkdown text={message.content} />}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </ScrollArea>
-          <SheetFooter className="p-4 border-t bg-background">
+                    ) : (
+                      <div
+                        className={cn(
+                          "rounded-lg p-3 max-w-[80%] text-sm", 
+                          message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'
+                        )}
+                      >
+                        {message.role === 'user' ? (
+                          <p>{message.content}</p>
+                        ) : (
+                          <MemoizedMiraMarkdown 
+                            text={message.content} 
+                            onTextUpdate={scrollToBottom}
+                          />
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          </div>
+          
+          <SheetFooter className="p-4 border-t bg-background shrink-0">
             <form onSubmit={handleSubmit} className="flex w-full items-center space-x-2">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask about cakes, orders..."
                 disabled={isLoading}
+                className="flex-1"
               />
               <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
                 <Send className="h-4 w-4" />
