@@ -92,24 +92,33 @@ export function MiraChat() {
   const { toast } = useToast();
 
   useEffect(() => {
-    const scrollAreaRoot = scrollAreaRef.current;
-    if (!scrollAreaRoot) return;
+    const scrollAreaNode = scrollAreaRef.current;
+    // The viewport is the element that actually scrolls.
+    const viewportNode = scrollAreaNode?.querySelector<HTMLDivElement>('div[data-radix-scroll-area-viewport]');
 
-    // The viewport is the scrollable element inside the ScrollArea component.
-    const viewport = scrollAreaRoot.firstElementChild;
-    if (!viewport) return;
+    if (!viewportNode) return;
 
-    // This observer watches for content changes (new messages, typing animation)
-    // and scrolls the viewport to the bottom automatically.
-    const observer = new MutationObserver(() => {
-      viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
+    // Function to scroll to the bottom.
+    const scrollToBottom = () => {
+      viewportNode.scrollTop = viewportNode.scrollHeight;
+    };
+
+    // Initial scroll to bottom when the component mounts.
+    scrollToBottom();
+
+    // Create an observer to watch for any changes in the viewport's content.
+    // This will catch new messages and the typing animation.
+    const observer = new MutationObserver(scrollToBottom);
+    observer.observe(viewportNode, {
+      childList: true, // Watch for new messages being added
+      subtree: true,   // Watch for text changes within messages (typing effect)
     });
 
-    // We observe the root for any descendants changing.
-    observer.observe(scrollAreaRoot, { childList: true, subtree: true });
-
-    return () => observer.disconnect();
-  }, []);
+    // Clean up the observer when the component is unmounted.
+    return () => {
+      observer.disconnect();
+    };
+  }, []); // The empty dependency array ensures this setup runs only once.
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
