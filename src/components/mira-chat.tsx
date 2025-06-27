@@ -16,6 +16,54 @@ type Message = {
   content: string;
 };
 
+const MiraMarkdown = ({ text }: { text: string }) => {
+  const toHtml = (markdown: string) => {
+    let html = markdown
+      // Handle bold: **text** -> <strong>text</strong>
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+    const lines = html.split('\n');
+    let processedHtml = '';
+    let inList = false;
+
+    for (const line of lines) {
+      const trimmedLine = line.trim();
+      // Handle lists: * item -> <li>item</li>
+      if (trimmedLine.startsWith('* ')) {
+        if (!inList) {
+          processedHtml += '<ul class="list-disc pl-5 space-y-1">';
+          inList = true;
+        }
+        processedHtml += `<li>${trimmedLine.substring(2)}</li>`;
+      } else {
+        if (inList) {
+          processedHtml += '</ul>';
+          inList = false;
+        }
+        // Wrap other lines in <p> tags for paragraph spacing
+        if (trimmedLine) {
+          processedHtml += `<p>${trimmedLine}</p>`;
+        }
+      }
+    }
+
+    if (inList) {
+      processedHtml += '</ul>';
+    }
+
+    // Clean up empty paragraphs that might result from multiple newlines
+    return processedHtml.replace(/<p>\s*<\/p>/g, '');
+  };
+
+  return (
+    <div
+      className="space-y-3"
+      dangerouslySetInnerHTML={{ __html: toHtml(text) }}
+    />
+  );
+};
+
+
 export function MiraChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -111,11 +159,12 @@ export function MiraChat() {
                      </div>
                   ) : (
                     <div
-                      className={cn("rounded-lg p-3 max-w-[80%] text-sm", 
+                      className={cn(
+                        "rounded-lg p-3 max-w-[80%] text-sm", 
                         message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'
                       )}
                     >
-                      <p className="whitespace-pre-wrap">{message.content}</p>
+                      {message.role === 'user' ? <p>{message.content}</p> : <MiraMarkdown text={message.content} />}
                     </div>
                   )}
                 </div>
