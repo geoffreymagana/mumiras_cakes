@@ -95,17 +95,14 @@ export function MiraChat() {
     const scrollDiv = scrollAreaRef.current;
     if (!scrollDiv) return;
 
-    // Function to scroll to the bottom.
-    const scrollToBottom = () => {
+    // This observer watches for content changes (new messages, typing animation)
+    // and ensures the chat window scrolls to the bottom automatically.
+    const observer = new MutationObserver(() => {
       scrollDiv.scrollTo({ top: scrollDiv.scrollHeight, behavior: 'smooth' });
-    };
+    });
 
-    // Use a MutationObserver to watch for content changes (like typing)
-    // and scroll to the bottom automatically.
-    const observer = new MutationObserver(scrollToBottom);
     observer.observe(scrollDiv, { childList: true, subtree: true });
 
-    // Disconnect the observer when the component unmounts.
     return () => observer.disconnect();
   }, []);
   

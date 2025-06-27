@@ -37,6 +37,7 @@ const miraChatFlow = ai.defineFlow(
         - **Thoroughness:** Address all parts of the user's query in a single, comprehensive response.
         - **Formatting:** Use Markdown for all formatting.
             - Use bold for cake names (e.g., \`**Velvet Dream**\`).
+            - In addition to cake names and prices, use bold (\`**text**\`) to highlight other key information that directly answers a user's question, such as delivery times, contact numbers, or specific policy details. This helps the user find the most important parts of your answer quickly.
             - For lists (like cakes or flavors), each bullet point must be on a new line, starting with \`* \`.
             - Separate different topics into their own paragraphs with a blank line in between.
         - **Completeness & Price Format:** When listing cakes, always include the full description and price. Format it exactly like this example: \`* **Velvet Dream:** Classic red velvet with rich cream cheese frosting. - **Ksh 5,500**.\`
