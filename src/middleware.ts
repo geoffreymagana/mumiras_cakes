@@ -48,7 +48,12 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.rewrite(url);
   }
 
-  // Default to main site
-  url.pathname = `/site${url.pathname}`;
-  return NextResponse.rewrite(url);
+  // Rewrite all non-root paths on the main domain to /site
+  if (url.pathname !== '/') {
+    url.pathname = `/site${url.pathname}`;
+    return NextResponse.rewrite(url);
+  }
+
+  // Allow the root path to be handled by src/app/page.tsx
+  return NextResponse.next();
 }
