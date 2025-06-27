@@ -22,10 +22,19 @@ import {
   Globe,
   UserCircle,
   Landmark,
+  Plus,
 } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard - Mumira's Cakes",
@@ -37,6 +46,14 @@ const bottomNavLinks = [
     { href: "/admin/orders", icon: ShoppingCart, label: "Orders" },
     { href: "/admin/products", icon: CakeSlice, label: "Products" },
     { href: "/admin/profile", icon: UserCircle, label: "Profile" },
+];
+
+const fabLinks = [
+    { href: "/admin/financials", icon: Landmark, label: "Financials" },
+    { href: "/admin/notifications", icon: Bell, label: "Notifications" },
+    { href: "/admin/blog", icon: Newspaper, label: "Blog" },
+    { href: "/admin/calendar", icon: CalendarDays, label: "Calendar" },
+    { href: "/admin/subscribers", icon: Users, label: "Subscribers" },
 ];
 
 
@@ -165,6 +182,35 @@ export default function AdminLayout({
                 ))}
             </div>
         </nav>
+        <div className="fixed bottom-24 right-4 md:hidden z-50">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="icon" className="rounded-full h-14 w-14 shadow-lg">
+                <Plus className="h-6 w-6" />
+                <span className="sr-only">More actions</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent side="top" align="end" className="w-56">
+              <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {fabLinks.map((link) => (
+                <DropdownMenuItem key={link.href} asChild>
+                  <Link href={link.href} className="flex items-center gap-2 cursor-pointer w-full">
+                    <link.icon className="h-4 w-4 text-muted-foreground" />
+                    <span>{link.label}</span>
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 cursor-pointer w-full">
+                  <Globe className="h-4 w-4 text-muted-foreground" />
+                  <span>View Website</span>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );
