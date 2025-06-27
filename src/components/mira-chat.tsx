@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter, SheetTrigger } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
@@ -18,7 +18,7 @@ type Message = {
   content: string;
 };
 
-const MiraMarkdown = ({ text, onTextUpdate }: { text: string; onTextUpdate?: () => void }) => {
+const MiraMarkdown = ({ text }: { text: string; }) => {
   const [displayedText, setDisplayedText] = useState('');
 
   useEffect(() => {
@@ -28,7 +28,6 @@ const MiraMarkdown = ({ text, onTextUpdate }: { text: string; onTextUpdate?: () 
       const typingInterval = setInterval(() => {
         if (i < text.length) {
           setDisplayedText(text.slice(0, i + 1));
-          onTextUpdate?.(); // Trigger scroll on each character
           i++;
         } else {
           clearInterval(typingInterval);
@@ -37,7 +36,7 @@ const MiraMarkdown = ({ text, onTextUpdate }: { text: string; onTextUpdate?: () 
 
       return () => clearInterval(typingInterval); // Cleanup
     }
-  }, [text, onTextUpdate]);
+  }, [text]);
 
   const toHtml = (markdown: string) => {
     let html = markdown
@@ -94,39 +93,35 @@ export function MiraChat() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const observerRef = useRef<MutationObserver | null>(null);
   const { toast } = useToast();
 
-  const scrollToBottom = useCallback(() => {
-    const contentEl = contentRef.current;
-    if (contentEl?.parentElement) {
-      contentEl.parentElement.scrollTop = contentEl.parentElement.scrollHeight;
-    }
-  }, []);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const contentEl = contentRef.current;
-    if (!contentEl) return;
+    const scrollArea = scrollAreaRef.current;
+    const messagesContainer = messagesContainerRef.current;
+    if (!isOpen || !scrollArea || !messagesContainer) return;
 
-    observerRef.current = new MutationObserver(scrollToBottom);
-    observerRef.current.observe(contentEl, {
+    const viewport = scrollArea.querySelector<HTMLDivElement>('[data-radix-scroll-area-viewport]');
+    if (!viewport) return;
+
+    const scrollToBottom = () => {
+        viewport.scrollTop = viewport.scrollHeight;
+    };
+
+    scrollToBottom(); // Initial scroll
+
+    const observer = new MutationObserver(scrollToBottom);
+    observer.observe(messagesContainer, {
       childList: true,
       subtree: true,
     });
 
     return () => {
-      observerRef.current?.disconnect();
+      observer.disconnect();
     };
-  }, [scrollToBottom, isOpen]);
-  
-  useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => {
-        scrollToBottom();
-      }, 100); 
-    }
-  }, [isOpen, scrollToBottom]);
+  }, [isOpen]); // Re-run effect when sheet is opened
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -178,8 +173,8 @@ export function MiraChat() {
           </SheetHeader>
           
           <div className="flex-1 flex flex-col min-h-0">
-            <ScrollArea className="flex-1">
-              <div ref={contentRef} className="px-4 py-4 space-y-4">
+            <ScrollArea className="flex-1" ref={scrollAreaRef}>
+              <div ref={messagesContainerRef} className="px-4 py-4 space-y-4">
                 {messages.map((message) => (
                   <div key={message.id} className={cn("flex gap-3 w-full", message.role === 'user' && "justify-end")}>
                     {message.role !== 'user' && (
@@ -204,10 +199,7 @@ export function MiraChat() {
                         {message.role === 'user' ? (
                           <p>{message.content}</p>
                         ) : (
-                          <MemoizedMiraMarkdown 
-                            text={message.content} 
-                            onTextUpdate={scrollToBottom}
-                          />
+                          <MemoizedMiraMarkdown text={message.content} />
                         )}
                       </div>
                     )}
