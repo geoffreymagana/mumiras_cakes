@@ -115,7 +115,7 @@ export function MiraChat() {
                         message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'
                       )}
                     >
-                      <p>{message.content}</p>
+                      <p className="whitespace-pre-wrap">{message.content}</p>
                     </div>
                   )}
                 </div>
