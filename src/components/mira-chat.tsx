@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
@@ -93,23 +94,23 @@ export function MiraChat() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const viewportRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<MutationObserver | null>(null);
   const { toast } = useToast();
 
   const scrollToBottom = useCallback(() => {
-    const viewport = viewportRef.current;
-    if (viewport) {
-      viewport.scrollTop = viewport.scrollHeight;
+    const contentEl = contentRef.current;
+    if (contentEl?.parentElement) {
+      contentEl.parentElement.scrollTop = contentEl.parentElement.scrollHeight;
     }
   }, []);
 
   useEffect(() => {
-    const viewport = viewportRef.current;
-    if (!viewport) return;
+    const contentEl = contentRef.current;
+    if (!contentEl) return;
 
     observerRef.current = new MutationObserver(scrollToBottom);
-    observerRef.current.observe(viewport, {
+    observerRef.current.observe(contentEl, {
       childList: true,
       subtree: true,
     });
@@ -177,8 +178,8 @@ export function MiraChat() {
           </SheetHeader>
           
           <div className="flex-1 flex flex-col min-h-0">
-            <ScrollArea className="flex-1" asChild>
-              <div ref={viewportRef} className="px-4 py-4 space-y-4">
+            <ScrollArea className="flex-1">
+              <div ref={contentRef} className="px-4 py-4 space-y-4">
                 {messages.map((message) => (
                   <div key={message.id} className={cn("flex gap-3 w-full", message.role === 'user' && "justify-end")}>
                     {message.role !== 'user' && (
