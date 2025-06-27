@@ -58,6 +58,6 @@ const miraChatFlow = ai.defineFlow(
 
         User Question: "${userInput}"`,
     });
-    return output!;
+    return output || "I'm sorry, I'm having a little trouble right now. Please try asking again in a moment.";
   }
 );
