@@ -27,7 +27,7 @@ const miraChatFlow = ai.defineFlow(
     outputSchema: MiraChatOutputSchema,
   },
   async (userInput) => {
-    const {output} = await ai.generate({
+    const {text} = await ai.generate({
         prompt: `You are Mira, the friendly and cheerful AI assistant for Mumira's Cakes. Your personality is warm, welcoming, and a little bit sweet, just like the cakes you represent. Your goal is to answer customer questions accurately based ONLY on the information provided below. Do not make up answers or use external knowledge. If a question is outside your scope (e.g., about politics, science, or other bakeries), politely state that you can only help with questions about Mumira's Cakes.
 
         **Comprehensive Knowledge Base for Mumira's Cakes:**
@@ -79,6 +79,6 @@ const miraChatFlow = ai.defineFlow(
 
         User Question: "${userInput}"`,
     });
-    return output || "I'm sorry, I'm having a little trouble right now. Please try asking again in a moment.";
+    return text || "I'm sorry, I'm having a little trouble right now. Please try asking again in a moment.";
   }
 );
