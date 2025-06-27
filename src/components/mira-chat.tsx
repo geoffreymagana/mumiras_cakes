@@ -1,7 +1,6 @@
-
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback, memo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter, SheetTrigger } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
@@ -18,26 +17,7 @@ type Message = {
   content: string;
 };
 
-const MiraMarkdown = ({ text }: { text: string; }) => {
-  const [displayedText, setDisplayedText] = useState('');
-
-  useEffect(() => {
-    if (text) {
-      let i = 0;
-      setDisplayedText(''); // Reset before typing new text
-      const typingInterval = setInterval(() => {
-        if (i < text.length) {
-          setDisplayedText(text.slice(0, i + 1));
-          i++;
-        } else {
-          clearInterval(typingInterval);
-        }
-      }, 15); // Typing speed in ms
-
-      return () => clearInterval(typingInterval); // Cleanup
-    }
-  }, [text]);
-
+const MiraMarkdown = ({ text }: { text: string }) => {
   const toHtml = (markdown: string) => {
     let html = markdown
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -75,11 +55,11 @@ const MiraMarkdown = ({ text }: { text: string; }) => {
   return (
     <div
       className="space-y-3"
-      dangerouslySetInnerHTML={{ __html: toHtml(displayedText) }}
+      dangerouslySetInnerHTML={{ __html: toHtml(text) }}
     />
   );
 };
-const MemoizedMiraMarkdown = React.memo(MiraMarkdown);
+const MemoizedMiraMarkdown = memo(MiraMarkdown);
 
 
 export function MiraChat() {
@@ -93,51 +73,63 @@ export function MiraChat() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const viewportRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const scrollToBottom = useCallback(() => {
+    if (viewportRef.current) {
+      viewportRef.current.scrollTop = viewportRef.current.scrollHeight;
+    }
+  }, []);
 
   useEffect(() => {
-    const scrollArea = scrollAreaRef.current;
-    const messagesContainer = messagesContainerRef.current;
-    if (!isOpen || !scrollArea || !messagesContainer) return;
-
-    const viewport = scrollArea.querySelector<HTMLDivElement>('[data-radix-scroll-area-viewport]');
-    if (!viewport) return;
-
-    const scrollToBottom = () => {
-        viewport.scrollTop = viewport.scrollHeight;
-    };
-
-    scrollToBottom(); // Initial scroll
+    if (!viewportRef.current) return;
 
     const observer = new MutationObserver(scrollToBottom);
-    observer.observe(messagesContainer, {
-      childList: true,
-      subtree: true,
-    });
+    observer.observe(viewportRef.current, { childList: true, subtree: true });
 
-    return () => {
-      observer.disconnect();
-    };
-  }, [isOpen]); // Re-run effect when sheet is opened
+    return () => observer.disconnect();
+  }, [isOpen, scrollToBottom]);
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isLoading || !input.trim()) return;
 
     const userMessage: Message = { id: `user-${Date.now()}`, role: 'user', content: input };
-    const loadingMessage: Message = { id: `loading-${Date.now()}`, role: 'loading', content: '...' };
-    
-    setMessages((prev) => [...prev, userMessage, loadingMessage]);
+    setMessages((prev) => [...prev, userMessage]);
+    const currentInput = input;
     setInput('');
-    setIsLoading(true);
+
+    setTimeout(() => {
+        const loadingMessage: Message = { id: `loading-${Date.now()}`, role: 'loading', content: '...' };
+        setMessages((prev) => [...prev, loadingMessage]);
+        setIsLoading(true);
+    }, 100);
 
     try {
-      const miraResponse = await askMira(input);
+      const miraResponse = await askMira(currentInput);
       const aiMessage: Message = { id: `mira-${Date.now()}`, role: 'mira', content: miraResponse };
-      setMessages((prev) => [...prev.slice(0, -1), aiMessage]);
+
+      let i = 0;
+      const typingInterval = setInterval(() => {
+        if (i < miraResponse.length) {
+          setMessages(prev => {
+            const lastMessage = prev[prev.length - 1];
+            if (lastMessage && lastMessage.role === 'loading') {
+               return [...prev.slice(0, -1), { ...aiMessage, content: miraResponse.slice(0, i + 1) }];
+            } else if (lastMessage && lastMessage.id === aiMessage.id) {
+               return prev.map(m => m.id === aiMessage.id ? { ...m, content: miraResponse.slice(0, i + 1) } : m);
+            }
+            return prev;
+          });
+          i++;
+        } else {
+          clearInterval(typingInterval);
+          setIsLoading(false);
+        }
+      }, 15);
+
     } catch (error) {
       console.error('Error fetching AI response:', error);
       const errorMessage: Message = { id: `error-${Date.now()}`, role: 'mira', content: "Oh dear, something went wrong. Please try again in a moment." };
@@ -147,7 +139,6 @@ export function MiraChat() {
         description: "Could not connect to the AI assistant.",
         variant: "destructive",
       })
-    } finally {
       setIsLoading(false);
     }
   };
@@ -173,38 +164,34 @@ export function MiraChat() {
           </SheetHeader>
           
           <div className="flex-1 flex flex-col min-h-0">
-            <ScrollArea className="flex-1" ref={scrollAreaRef}>
-              <div ref={messagesContainerRef} className="px-4 py-4 space-y-4">
-                {messages.map((message) => (
+            <ScrollArea className="flex-1" viewportRef={viewportRef}>
+               <div className="px-4 py-4 space-y-4">
+                  {messages.map((message) => (
                   <div key={message.id} className={cn("flex gap-3 w-full", message.role === 'user' && "justify-end")}>
-                    {message.role !== 'user' && (
-                       <Avatar className="h-8 w-8 bg-primary/20 text-primary shrink-0">
+                      {message.role !== 'user' && (
+                      <Avatar className="h-8 w-8 bg-primary/20 text-primary shrink-0">
                           <AvatarFallback><Cake className="h-5 w-5"/></AvatarFallback>
                       </Avatar>
-                    )}
-                    
-                    {message.role === 'loading' ? (
-                       <div className="bg-muted rounded-lg p-3 max-w-[80%] flex items-center space-x-1">
+                      )}
+                      
+                      {message.role === 'loading' ? (
+                      <div className="bg-muted rounded-lg p-3 max-w-[80%] flex items-center space-x-1">
                           <span className="h-2 w-2 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
                           <span className="h-2 w-2 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
                           <span className="h-2 w-2 bg-primary rounded-full animate-bounce"></span>
-                       </div>
-                    ) : (
+                      </div>
+                      ) : (
                       <div
-                        className={cn(
+                          className={cn(
                           "rounded-lg p-3 max-w-[80%] text-sm", 
                           message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'
-                        )}
+                          )}
                       >
-                        {message.role === 'user' ? (
-                          <p>{message.content}</p>
-                        ) : (
                           <MemoizedMiraMarkdown text={message.content} />
-                        )}
                       </div>
-                    )}
+                      )}
                   </div>
-                ))}
+                  ))}
               </div>
             </ScrollArea>
           </div>
