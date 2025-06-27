@@ -17,6 +17,25 @@ type Message = {
 };
 
 const MiraMarkdown = ({ text }: { text: string }) => {
+  const [displayedText, setDisplayedText] = useState('');
+
+  useEffect(() => {
+    if (text) {
+      let i = 0;
+      setDisplayedText(''); // Reset before typing new text
+      const typingInterval = setInterval(() => {
+        if (i < text.length) {
+          setDisplayedText(text.slice(0, i + 1));
+          i++;
+        } else {
+          clearInterval(typingInterval);
+        }
+      }, 15); // Typing speed in ms
+
+      return () => clearInterval(typingInterval); // Cleanup
+    }
+  }, [text]);
+
   const toHtml = (markdown: string) => {
     let html = markdown
       // Handle bold: **text** -> <strong>text</strong>
@@ -58,7 +77,7 @@ const MiraMarkdown = ({ text }: { text: string }) => {
   return (
     <div
       className="space-y-3"
-      dangerouslySetInnerHTML={{ __html: toHtml(text) }}
+      dangerouslySetInnerHTML={{ __html: toHtml(displayedText) }}
     />
   );
 };
@@ -73,13 +92,22 @@ export function MiraChat() {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTo({
-        top: scrollAreaRef.current.scrollHeight,
-        behavior: 'smooth',
-      });
-    }
-  }, [messages]);
+    const scrollDiv = scrollAreaRef.current;
+    if (!scrollDiv) return;
+
+    // Function to scroll to the bottom.
+    const scrollToBottom = () => {
+      scrollDiv.scrollTo({ top: scrollDiv.scrollHeight, behavior: 'smooth' });
+    };
+
+    // Use a MutationObserver to watch for content changes (like typing)
+    // and scroll to the bottom automatically.
+    const observer = new MutationObserver(scrollToBottom);
+    observer.observe(scrollDiv, { childList: true, subtree: true });
+
+    // Disconnect the observer when the component unmounts.
+    return () => observer.disconnect();
+  }, []);
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
