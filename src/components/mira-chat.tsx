@@ -6,7 +6,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter, SheetTrigger
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { MessageSquarePlus, Send, Sparkles, Cake } from 'lucide-react';
+import { BotMessageSquare, Send, Sparkles, Cake } from 'lucide-react';
 import { askMira } from '@/ai/flows/mira-chat-flow';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -68,10 +68,9 @@ export function MiraChat() {
         <SheetTrigger asChild>
           <Button
             size="icon"
-            className="fixed bottom-6 right-6 h-16 w-16 rounded-full shadow-lg z-50 flex flex-col items-center justify-center gap-1"
+            className="fixed bottom-6 right-6 h-16 w-16 rounded-full shadow-lg z-50"
           >
-            <MessageSquarePlus className="h-7 w-7" />
-            <span className="text-xs">Chat</span>
+            <BotMessageSquare className="h-8 w-8" />
             <span className="sr-only">Talk to Mira AI</span>
           </Button>
         </SheetTrigger>
