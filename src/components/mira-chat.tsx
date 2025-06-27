@@ -92,16 +92,21 @@ export function MiraChat() {
   const { toast } = useToast();
 
   useEffect(() => {
-    const scrollDiv = scrollAreaRef.current;
-    if (!scrollDiv) return;
+    const scrollAreaRoot = scrollAreaRef.current;
+    if (!scrollAreaRoot) return;
+
+    // The viewport is the scrollable element inside the ScrollArea component.
+    const viewport = scrollAreaRoot.firstElementChild;
+    if (!viewport) return;
 
     // This observer watches for content changes (new messages, typing animation)
-    // and ensures the chat window scrolls to the bottom automatically.
+    // and scrolls the viewport to the bottom automatically.
     const observer = new MutationObserver(() => {
-      scrollDiv.scrollTo({ top: scrollDiv.scrollHeight, behavior: 'smooth' });
+      viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
     });
 
-    observer.observe(scrollDiv, { childList: true, subtree: true });
+    // We observe the root for any descendants changing.
+    observer.observe(scrollAreaRoot, { childList: true, subtree: true });
 
     return () => observer.disconnect();
   }, []);
